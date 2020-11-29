@@ -3,7 +3,7 @@ Reads a picture of a whiteboard with a grid on it and parses the the symbol in t
 
 ![grid example](image0.jpg)
 
-`python parse.py <CHARACTER> <PATH_TO_IMAGE>`
+`python whiteboard_parse.py <CHARACTER> <PATH_TO_IMAGE>`
 
 
 ## requirements
