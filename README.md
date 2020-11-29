@@ -5,7 +5,7 @@ Reads a picture of a whiteboard with a grid on it and parses the the symbol in t
 
 `python whiteboard_parse.py <CHARACTER> <PATH_TO_IMAGE>`
 
-the imageparse program comes from ![Sudoku_ai](https://github.com/Joy2469/Sudoku_AI.git)
+the imageparse program comes from [Sudoku_ai](https://github.com/Joy2469/Sudoku_AI.git)
 
 ## requirements
 TBD
