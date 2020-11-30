@@ -1,3 +1,4 @@
+from imageparse import display_image
 import numpy as np
 import pandas as pd
 import os
@@ -18,22 +19,6 @@ data = x.to_numpy()
 pixels = data
 pixels = np.array(pixels, dtype='uint8')
 pixels = pixels.reshape((28,28))
-
-
-
-def display_image(img):
-    """displays an image
-    
-    Args:
-       img: image to be displayed
-    
-    
-    """
-    
-    cv2.namedWindow('image', cv2.WINDOW_NORMAL)
-    cv2.imshow('image',img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
 
 
 display_image(pixels)
