@@ -21,7 +21,7 @@ def cell_to_csv(path_to_csv, path_to_image_dir, character):
     for filename in os.listdir(path):
         im = cv2.imread(os.path.join(path,filename))
         blurred = cv2.blur(im,(3,3))
-        thresh, black_white = cv2.threshold(blurred, 127, 255, cv2.THRESH_BINARY)
+        thresh, black_white = cv2.threshold(blurred, 127, 255, cv2.THRESH_BINARY_INV)
         edges = cv2.Canny(black_white,100,200)
         
         pts = np.argwhere(edges > 0)

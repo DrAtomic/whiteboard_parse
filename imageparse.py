@@ -1,12 +1,11 @@
 import cv2
 import numpy as np
-from imutils import contours
-import random
 import os
 
 
 #example!
-#img = cv2.imread(path_to_image)
+
+#img = cv2.imread('image0.jpg')
 
 
 def display_image(img):
@@ -22,6 +21,8 @@ def display_image(img):
     cv2.imshow('image',img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+
 #display_image(img)
 
 def process_image(img, skip_dilate=False):
@@ -35,7 +36,7 @@ def process_image(img, skip_dilate=False):
     
     """
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    blur = cv2.GaussianBlur(gray,(9,9), 0)
+    blur = cv2.GaussianBlur(gray,(23,23), 0)
     thresh = cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,11,2)
     thresh = cv2.bitwise_not(thresh,thresh)
     
@@ -48,6 +49,7 @@ def process_image(img, skip_dilate=False):
         thresh = cv2.dilate(thresh,kernel)
         
     return thresh
+
 #display_image(process_image(img))
 
 def find_corners(image):
@@ -71,9 +73,10 @@ def find_corners(image):
         approx = cv2.approxPolyDP(c, 0.015 * peri, True)
         if len(approx) == 4:
             return approx
+
 #t = find_corners(process_image(img))
 #print(t)
-        
+
 def sort_corners(corners):
     """sorts corners clockwise
     
@@ -125,10 +128,9 @@ def crop_image(image, corners):
     orderd_corners = np.array(orderd_corners, dtype="float32")
     grid = cv2.getPerspectiveTransform(orderd_corners,dimensions)
     
-    return cv2.warpPerspective(image, grid, (width, height))
-#display_image(crop_image(img,find_corners(process_image(img))))
+    return cv2.rotate(cv2.warpPerspective(image, grid, (width, height)),cv2.cv2.ROTATE_90_COUNTERCLOCKWISE)
 
-#x = crop_image(img,find_corners(process_image(img)))
+#display_image(crop_image(img,find_corners(process_image(img))))
 
 
 def analyze_cells(img,pwd):
@@ -139,48 +141,27 @@ def analyze_cells(img,pwd):
        pwd: path to working directory
     
     """
-
-
-    # TODO: instead of this lets just iterate through the contours
-    grid = np.copy(img)
-    edge_h = np.shape(grid)[0]
-    edge_w = np.shape(grid)[1]
-    # FIXME: when you get a better board fix the cells. you better make a 10x10 grid
-    NUMBER_OF_CELLS = 7
-    cell_edge_h = edge_h // NUMBER_OF_CELLS
-    cell_edge_w = edge_w // NUMBER_OF_CELLS
+   
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (33,33), 0)
+    thresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
     
-    grid = cv2.cvtColor(grid, cv2.COLOR_BGR2GRAY)
-
-    grid = cv2.bitwise_not(grid,grid)
-
-    temp_grid = []
-    for i in range(cell_edge_h, edge_h + 1, cell_edge_h):
-        for j in range(cell_edge_w, edge_w + 1, cell_edge_w):
-            rows = grid[i - cell_edge_h:i]
-            temp_grid.append([rows[k][j - cell_edge_w:j] for k in range(len(rows))])
-
-    final_grid = []
-    for i in range(0, len(temp_grid) - (NUMBER_OF_CELLS - 1), NUMBER_OF_CELLS):
-        final_grid.append(temp_grid[i:i + NUMBER_OF_CELLS])
-  
     
-    for i in range(NUMBER_OF_CELLS):
-        for j in range(NUMBER_OF_CELLS):
-            final_grid[i][j] = np.array(final_grid[i][j])
-
-    try:
-        for i in range(NUMBER_OF_CELLS):
-            for j in range(NUMBER_OF_CELLS):
-                np.os.remove(pwd + "/cell_images/cell" + str(i) + str(j) + ".jpg")
-    except:
-        pass
-    for i in range(NUMBER_OF_CELLS):
-        for j in range(NUMBER_OF_CELLS):
-            cv2.imwrite(str(pwd + "/cell_images/cell" + str(i) + str(j) + ".jpg"), final_grid[i][j])
-
-    return final_grid
-
+    thresh = 255 - thresh
+    
+    cnts = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+    cnts = cnts[0] if len(cnts) == 2 else cnts[1]
+    count = 0
+    for cnt in cnts:
+        x,y,w,h = cv2.boundingRect(cnt)
+        cropped = img[y:y+h,x:x+w]
+        try:
+            np.os.remove(pwd + 'cell_images' + str(count) + 'jpg')
+        except:
+            pass
+        cv2.imwrite(pwd+'/cell_images/cell' + str(count) + '.jpg',cropped)
+        count +=1
+   
 
 def parse_grid(path_to_image,pwd):
     """takes a path to an image writes all the cells in a folder called cell_images
@@ -195,3 +176,4 @@ def parse_grid(path_to_image,pwd):
     analyze_cells(crop_image(img,find_corners(process_image(img))),pwd)
 
 
+parse_grid('image0.jpg',os.getcwd())
