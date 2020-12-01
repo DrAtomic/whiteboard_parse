@@ -34,23 +34,25 @@ def analyze_cells(img,pwd):
        pwd: path to working directory
     
     """
-    MAX_CELLS = 100 #number of cells
+    TARGET = 100 #number of cells
+    kernels = [x for x in range(3,249) if x%2 != 0]
+    kernel = kernels[round(len(kernels)/2)]
+    
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    blur = cv2.GaussianBlur(gray, (33,33), 0)
-    thresh = cv2.threshold(blur,127,255,cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-    
-    cnts, heirarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
-    
-    if (len (heirarchy[0]) != MAX_CELLS + 1):
-        print("Warning: too many contours, increasing blur")
-        print(str(len(heirarchy[0])) + " contours")
-        blur = cv2.GaussianBlur(gray, (93,93), 0)
+
+    heirarchy = [[],[]]
+    while (len(heirarchy[0]) != TARGET + 1):
+        blur = cv2.GaussianBlur(gray, (kernel,kernel), 0)
         thresh = cv2.threshold(blur,127,255,cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
         cnts, heirarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
-        if (len(heirarchy[0]) != MAX_CELLS + 1):
-            print("ERROR: could not fix, exiting")
-            exit(1)
-
+        
+        if (len(heirarchy[0]) < TARGET + 1):
+            kernels = [x for x in range(kernels[0], kernel) if x%2 !=0]
+            kernel = kernels[round(len(kernels)/2)]
+        else:
+            kernels = [x for x in range(kernel, kernels[-1])]
+            kernel = kernels[round(len(kernels)/2)]
+        
         
     count = 0
     for i in range(len(cnts)):
@@ -76,4 +78,4 @@ def parse_grid(path_to_image,pwd):
     analyze_cells(img,pwd)
 
 
-#parse_grid("image0.jpg",os.getcwd())
+parse_grid("/home/leo/Downloads/image0.jpg",os.getcwd())
