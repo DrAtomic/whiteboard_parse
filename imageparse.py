@@ -78,4 +78,4 @@ def parse_grid(path_to_image,pwd):
     analyze_cells(img,pwd)
 
 
-parse_grid("/home/leo/Downloads/image0.jpg",os.getcwd())
+#parse_grid("image0.jpg",os.getcwd())
