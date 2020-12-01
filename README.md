@@ -41,3 +41,8 @@ next the program will resize the images to  28x28 and append those pixels into "
 You can visualize an image added to this csv by running `python vismnist.py`
 
 This dataset can (hopefully) be appended to the [mnist dataset](http://yann.lecun.com/exdb/mnist/) 
+
+
+## TODO
+* before putting the cell into the csv i need to make all the pixels around the parameter zero
+* add a function that deletes the last 100 entries in the csv file in case of bad batch
