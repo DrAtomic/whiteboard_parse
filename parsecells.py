@@ -16,7 +16,6 @@ def cell_to_csv(path_to_csv, path_to_image_dir, character):
     """
     
     path = str(path_to_image_dir)
-    print(path)
     
     for filename in os.listdir(path):
         im = cv2.imread(os.path.join(path,filename))
@@ -31,6 +30,10 @@ def cell_to_csv(path_to_csv, path_to_image_dir, character):
         cropped = black_white[y1:y2, x1:x2]
         
         resize = cv2.resize(cropped,(28,28))
+        mask = np.zeros((28,28,3))
+        mask[1:-1, 1:-1] = 1
+        resize = mask*resize
+
         
         temp = []
         for i in range(len(resize)):
@@ -42,3 +45,4 @@ def cell_to_csv(path_to_csv, path_to_image_dir, character):
         with open(path_to_csv + '/gathered_data.csv', 'a', newline='',encoding='utf-8') as fd:
             writer = csv.writer(fd)
             writer.writerow(temp)
+
