@@ -31,9 +31,9 @@ def cell_to_csv(path_to_csv, path_to_image_dir, character):
         
         resize = cv2.resize(cropped,(28,28))
         mask = np.zeros((28,28,3))
-        mask[1:-1, 1:-1] = 1
+        mask[3:-3, 3:-3] = 1
         resize = mask*resize
-
+        
         
         temp = []
         for i in range(len(resize)):
