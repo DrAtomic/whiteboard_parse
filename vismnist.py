@@ -2,19 +2,19 @@ from imageparse import display_image
 import numpy as np
 import pandas as pd
 import os
-import cv2
+from random import randint
 
 
 pwd = os.getcwd() + '/data/gathered_data.csv'
 
 x = pd.read_csv(pwd)
 
-# get first row
-x = x.iloc[0]
+# get random row
+x1 = x.iloc[randint(0,len(x))]
 
 #remove label
-x = x[1:]
-data = x.to_numpy()
+x1 = x1[1:]
+data = x1.to_numpy()
 
 pixels = data
 pixels = np.array(pixels, dtype='uint8')
