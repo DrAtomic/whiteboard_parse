@@ -30,14 +30,14 @@ def analyze_cells(img,pwd):
     """takes an image and analyze_cells the cells, saves the cells in a folder
     
     Args:
-       img: croped image
+       img: image
        pwd: path to working directory
     
     """
     TARGET = 100 #number of cells
     kernels = [x for x in range(3,249) if x%2 != 0]
     kernel = kernels[round(len(kernels)/2)]
-    
+
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     heirarchy = [[],[]]
@@ -53,7 +53,7 @@ def analyze_cells(img,pwd):
             kernels = [x for x in range(kernel, kernels[-1])]
             kernel = kernels[round(len(kernels)/2)]
         
-        
+
     count = 0
     for i in range(len(cnts)):
         if (heirarchy[0][i][3] != -1):
