@@ -8,6 +8,7 @@ from random import randint
 pwd = os.getcwd() + '/data/gathered_data.csv'
 
 x = pd.read_csv(pwd)
+
 cell = randint(0,len(x)-1)
 # get random row
 x1 = x.iloc[cell]

@@ -35,11 +35,14 @@ def analyze_cells(img,pwd):
     
     """
     TARGET = 100 #number of cells
+    percentage = 15
+    percentage = percentage / 200
+    
     kernels = [x for x in range(3,249) if x%2 != 0]
     kernel = kernels[round(len(kernels)/2)]
-
+    
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
+    
     heirarchy = [[],[]]
     while (len(heirarchy[0]) != TARGET + 1):
         blur = cv2.GaussianBlur(gray, (kernel,kernel), 0)
@@ -52,18 +55,27 @@ def analyze_cells(img,pwd):
         else:
             kernels = [x for x in range(kernel, kernels[-1])]
             kernel = kernels[round(len(kernels)/2)]
-        
-
+            
+            
     count = 0
     for i in range(len(cnts)):
         if (heirarchy[0][i][3] != -1):
             x,y,w,h = cv2.boundingRect(cnts[i])
-            cropped = img[y:y+h, x:x+w]
+            cropped = gray[y:y+h, x:x+w]
+            thresh = cv2.threshold(cropped, 127,255,cv2.THRESH_BINARY_INV)[1]
+            mask = np.zeros((cropped.shape[0], cropped.shape[1]))
+            x1 = cropped.shape[0]
+            x2 = round(x1 * percentage)
+            y1 = cropped.shape[1]
+            y2 = round(y1 * percentage)
+            mask[x2:x1-x2, y2:y1-y2] = 1
+            masked_image = thresh * mask
+            
             try:
                 os.remove(pwd + '/cell_images/cell' + str(count) + '.jpg')
             except:
                 pass
-            cv2.imwrite(pwd+'/cell_images/cell' + str(count) + '.jpg',cropped)
+            cv2.imwrite(pwd+'/cell_images/cell' + str(count) + '.jpg',masked_image)
             count +=1
 
 def parse_grid(path_to_image,pwd):
