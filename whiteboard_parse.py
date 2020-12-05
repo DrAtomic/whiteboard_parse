@@ -13,5 +13,5 @@ if __name__ == '__main__':
     path_to_csv = pwd + '/data'
     path_to_image_dir = pwd + '/cell_images'
     
-    imageparse.parse_grid(path_to_image,pwd)
-    parsecells.cell_to_csv(path_to_csv,path_to_image_dir,character)
+    imageparse.parse_grid(path_to_image,pwd,character)
+

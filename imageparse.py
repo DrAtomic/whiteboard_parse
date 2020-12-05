@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import os
-
+import csv
 
 #example!
 
@@ -26,7 +26,7 @@ def display_image(img):
 
 
 
-def analyze_cells(img,pwd):
+def analyze_cells(img,pwd,character):
     """takes an image and analyze_cells the cells, saves the cells in a folder
     
     Args:
@@ -71,14 +71,22 @@ def analyze_cells(img,pwd):
             mask[x2:x1-x2, y2:y1-y2] = 1
             masked_image = thresh * mask
             
+            masked_image = cv2.resize(masked_image, (28,28))
             try:
                 os.remove(pwd + '/cell_images/cell' + str(count) + '.jpg')
             except:
                 pass
             cv2.imwrite(pwd+'/cell_images/cell' + str(count) + '.jpg',masked_image)
             count +=1
+            
+            temp = [item for sublist in masked_image for item in sublist]
+            temp.insert(0,character)
+            
+            with open(pwd + '/data/gathered_data.csv', 'a', newline='',encoding='utf-8') as fd:
+                writer = csv.writer(fd)
+                writer.writerow(temp)
 
-def parse_grid(path_to_image,pwd):
+def parse_grid(path_to_image,pwd,character):
     """takes a path to an image writes all the cells in a folder called cell_images
 
     Args:
@@ -87,7 +95,7 @@ def parse_grid(path_to_image,pwd):
 
     """
     img = cv2.imread(path_to_image)  
-    analyze_cells(img,pwd)
+    analyze_cells(img,pwd,character)
 
 
-#parse_grid("image0.jpg",os.getcwd())
+#parse_grid("image0.jpg",os.getcwd(),'(')
