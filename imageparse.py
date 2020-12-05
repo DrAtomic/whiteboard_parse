@@ -34,7 +34,7 @@ def cells_to_csv(cell, pwd, character):
     
     """
     
-    flatten_list = [item for sublist in cell for item in sublist]
+    flatten_list = [int(item) for sublist in cell for item in sublist]
     flatten_list.insert(0,character)
 
     with open(pwd + '/data/gathered_data.csv', 'a', newline='',encoding='utf-8') as fd:

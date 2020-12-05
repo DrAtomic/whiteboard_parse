@@ -9,7 +9,7 @@ Reads a picture of a whiteboard with a grid on it and parses the the symbol in t
 
 `python whiteboard_parse.py '<CHARACTER>' <PATH_TO_IMAGE>`
 
-ispired by [Sudoku_ai](https://github.com/Joy2469/Sudoku_AI.git), although extremely different now, looking at this project made me think about analyzing cells in a grid. Past iterations of this project used programs from sudoku AI but now that is not the case. 
+Inspired by [Sudoku_ai](https://github.com/Joy2469/Sudoku_AI.git), although extremely different now, looking at this project made me think about analyzing cells in a grid. Past iterations of this project used programs from sudoku AI but now that is not the case. 
 
 
 ## requirements
@@ -32,8 +32,8 @@ To test this program run
 
 `python whiteboard_parse.py '(' image0.jpg`
 
-This will produce outputs in "/cell_images/"
-for example 
+This will produce outputs in "/cell_images/" for example 
+
 ![cell](cell_images/cell3.jpg)
 
 You can look at these in the cell_images directory. Just look at all the C's! its a sea of C's
@@ -41,9 +41,12 @@ You can look at these in the cell_images directory. Just look at all the C's! it
 next the program will resize the images to  28x28 and append those pixels into "data/gathered_data.csv"
 
 ### visualize cells
-You can visualize an image added to this csv by running `python vismnist.py`
+You can visualize an image added to this csv by running 
+
+`python vismnist.py`
 
 ### remove bad entry
 
 this program removes the last entry of 100 cells
+
 `python delentry.py`
