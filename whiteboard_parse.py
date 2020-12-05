@@ -1,4 +1,3 @@
-import parsecells
 import imageparse
 import sys
 import os
