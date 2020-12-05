@@ -16,7 +16,7 @@ def display_image(img):
     
     
     """
-
+    
     cv2.namedWindow('image', cv2.WINDOW_NORMAL)
     cv2.imshow('image',img)
     cv2.waitKey(0)
@@ -24,7 +24,23 @@ def display_image(img):
 
 #display_image(img)
 
+def cells_to_csv(cell, pwd, character):
+    """takes a current cell and a character outputs a csv file of the key
+    
+    Args:
+       cell: 2d array of cell
+       character: label of cell
+    
+    
+    """
+    
+    flatten_list = [item for sublist in cell for item in sublist]
+    flatten_list.insert(0,character)
 
+    with open(pwd + '/data/gathered_data.csv', 'a', newline='',encoding='utf-8') as fd:
+        writer = csv.writer(fd)
+        writer.writerow(flatten_list)
+                
 
 def analyze_cells(img,pwd,character):
     """takes an image and analyze_cells the cells, saves the cells in a folder
@@ -79,20 +95,15 @@ def analyze_cells(img,pwd,character):
             cv2.imwrite(pwd+'/cell_images/cell' + str(count) + '.jpg',masked_image)
             count +=1
             
-            temp = [item for sublist in masked_image for item in sublist]
-            temp.insert(0,character)
-            
-            with open(pwd + '/data/gathered_data.csv', 'a', newline='',encoding='utf-8') as fd:
-                writer = csv.writer(fd)
-                writer.writerow(temp)
+            cells_to_csv(masked_image, pwd, character)
 
 def parse_grid(path_to_image,pwd,character):
     """takes a path to an image writes all the cells in a folder called cell_images
-
+    
     Args:
        path_to_image: the path to an image
-
-
+    
+    
     """
     img = cv2.imread(path_to_image)  
     analyze_cells(img,pwd,character)
