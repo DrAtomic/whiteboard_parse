@@ -9,7 +9,7 @@ Reads a picture of a whiteboard with a grid on it and parses the the symbol in t
 
 `python whiteboard_parse.py '<CHARACTER>' <PATH_TO_IMAGE>`
 
-the imageparse program was inspired by [Sudoku_ai](https://github.com/Joy2469/Sudoku_AI.git), although extremely different now, looking at this project made me think about analyzing cells in a grid. Past iterations of this project used programs from sudoku AI but now that is not the case. 
+ispired by [Sudoku_ai](https://github.com/Joy2469/Sudoku_AI.git), although extremely different now, looking at this project made me think about analyzing cells in a grid. Past iterations of this project used programs from sudoku AI but now that is not the case. 
 
 
 ## requirements
