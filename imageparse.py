@@ -29,6 +29,7 @@ def cells_to_csv(cell, pwd, character):
     
     Args:
        cell: 2d array of cell
+       pwd: path to working directory
        character: label of cell
     
     
@@ -48,7 +49,8 @@ def analyze_cells(img,pwd,character):
     Args:
        img: image
        pwd: path to working directory
-    
+       character: label for character
+     
     """
     TARGET = 100 #number of cells
     percentage = 15
@@ -102,7 +104,8 @@ def parse_grid(path_to_image,pwd,character):
     
     Args:
        path_to_image: the path to an image
-    
+       pwd:           path to current working directory
+       character:     label to character
     
     """
     img = cv2.imread(path_to_image)  
