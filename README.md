@@ -3,14 +3,11 @@ This project is intended to gather your own data
 
 This dataset can (hopefully) be appended to the [mnist dataset](http://yann.lecun.com/exdb/mnist/) 
 
-Reads a picture of a whiteboard with a grid on it and parses the the symbol in the cells. It returns a gathered_data.csv. Each row has an array of pixel values and the last element of the row has the class. (same format as the mnist dataset, which I inted to append this data too)
+Reads a picture of a whiteboard with a grid on it and parses the the symbol in the cells. It returns a gathered_data.csv. Each row has an array of pixel values and the last element of the row has the class. (same format as the mnist dataset, which I intend to append this data too)
 
 ![grid example](image0.jpg)
 
 `python whiteboard_parse.py '<CHARACTER>' <PATH_TO_IMAGE>`
-
-Inspired by [Sudoku_ai](https://github.com/Joy2469/Sudoku_AI.git), although extremely different now, looking at this project made me think about analyzing cells in a grid. Past iterations of this project used programs from sudoku AI but now that is not the case. 
-
 
 ## requirements
 `pip install -r requirements.txt`
@@ -50,3 +47,7 @@ You can visualize an image added to this csv by running
 this program removes the last entry of 100 cells
 
 `python delentry.py`
+
+## references
+
+Inspired by [Sudoku_ai](https://github.com/Joy2469/Sudoku_AI.git), although extremely different now, looking at this project made me think about analyzing cells in a grid. Past iterations of this project used programs from sudoku AI but now that is not the case. 
